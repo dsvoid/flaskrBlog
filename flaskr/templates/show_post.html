@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block body %}
+  <div class=post>
+    <h1>{{ post.title }}</h1>
+    {{ post.publish_date[:10] }}<br/>
+    {{ post.text|safe }}
+  </div>
+  <hr/>
+{% endblock %}

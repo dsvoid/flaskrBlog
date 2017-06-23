@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+		<script src="{{ url_for('static', filename='markdown.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <div class=flash>{{ get_flashed_messages()[0] }}</div>
+		<button type=button onclick="preview()" style="float: right; margin-top: 8px;">Toggle Preview</button><br/>
+		<h1 id=preview-title style="display:none;"></h1>
+		<div id=preview-text style="display:none;"></div>
+    <form action="{{ url_for('edit_post', slug=slug) }}" method=post class=edit-post id=edit-post>
+			Title<br/>
+			<textarea rows=1 name=title class=title-input id=title-input>{{ post.title }}</textarea><br/>
+			Content<br/>
+			<textarea name=text class=text-input id=text-input>{{ text }}</textarea><br/>
+			{% if post.published %}
+				<input type=checkbox name=published checked>
+			{% else %}
+				<input type=checkbox name=published>
+			{% endif %}
+			Publish post <br/><br/>
+			<input type=submit value=Save>
+    </form>
+  {% endif %}
+{% endblock %}

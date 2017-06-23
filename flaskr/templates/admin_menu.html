@@ -1,0 +1,35 @@
+{% if session.logged_in%}
+<!doctype html>
+<html>
+
+<head>
+<meta charset=UTF-8>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<title>admin menu</title>
+</head>
+
+<body>
+  {% for post in posts %}
+  <div class=post>
+    <h2>{{ post.title }}</h2>
+    <span>
+      {% if post.published %}
+        Published on: {{post.publish_date[:10]}}
+      {% else %}
+        {{ post.publish_date }}
+      {% endif %}
+    </span><br/>
+    <a href="edit/{{ post.slug }}">edit</a> |
+    <a href="{{ post.slug }}">view</a><br/>
+    <form action="{{ url_for('delete') }}" method=post>
+      <input type=hidden name=id value="{{ post.id }}">
+      <button style="margin:8px 0;" onclick="return confirm('Are you sure you want to delete {{ post.title }}?')">
+	delete</button>
+    </form>
+  </div>
+  <hr/>
+  {% endfor %}
+</body>
+
+</html>
+{% endif %}

@@ -103,3 +103,4 @@ bin/
 flaskr.db
 include/
 pip-selfcheck.json
+keys.py

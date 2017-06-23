@@ -1,7 +1,5 @@
 click==6.7
 Flask==0.12.2
-## !! Could not determine repository location
-flaskr==0.0.0
 itsdangerous==0.24
 Jinja2==2.9.6
 Markdown==2.6.8

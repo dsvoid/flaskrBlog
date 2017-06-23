@@ -54,3 +54,11 @@ flask run
 ```
 
 Now the application should host the website at `http://127.0.0.1:5000/`
+
+## Usage
+
+First you'll need to log in using the credentials you set up earlier by going to `/login`. Once you've done that, you have some options:
+
+- `/add` to make a new post. Check "Publish post" for it to appear publicly.
+- `/admin` to view all your posts whether published or not, and edit them.
+- `/logout` to end your session.

@@ -69,6 +69,14 @@ def show_posts():
     posts = cur.fetchall()
     return render_template('show_posts.html', posts=posts)
 
+@app.route('/archive')
+def archive():
+    db = get_db()
+    posts = db.execute('''select title, slug, publish_date from posts
+                          where published == 1
+                          order by publish_date desc''').fetchall()
+    return render_template('archive.html', posts=posts)
+
 @app.route('/post/<slug>')
 def show_post(slug):
     db = get_db()

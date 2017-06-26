@@ -62,3 +62,4 @@ First you'll need to log in using the credentials you set up earlier by going to
 - `/add` to make a new post. Check "Publish post" for it to appear publicly.
 - `/admin` to view all your posts whether published or not, and edit them.
 - `/logout` to end your session.
+- `/archive` to view an archive of your posts.

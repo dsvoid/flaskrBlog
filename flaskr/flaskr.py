@@ -69,6 +69,10 @@ def show_posts():
     posts = cur.fetchall()
     return render_template('show_posts.html', posts=posts)
 
+@app.route('/about')
+def about():
+    return render_template('about.html', title='about')
+
 @app.route('/archive')
 def archive():
     db = get_db()

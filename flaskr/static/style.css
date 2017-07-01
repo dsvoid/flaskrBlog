@@ -18,29 +18,68 @@ h3 a, h3 a:visited, h1 a, h1 a:visited, .post h1 a, .post h1 a:visited {
 	text-decoration: none;
 }
 
-.nav {
-	position: fixed;
-	width: 160px;
-	left: calc(50% - 510px);
-}
+@media only screen and (min-width: 1052px) {
+	.nav {
+		position: fixed;
+		width: 160px;
+		left: calc(50% - 510px);
+	}
 
-.nav h1 {
-	font-size: 48px;
-	margin-top: 21px;
-	margin-bottom: 16px;
-}
+	.nav h1 {
+		font-size: 48px;
+		margin-top: 21px;
+		margin-bottom: 16px;
+	}
 
-.nav ul {
-	list-style-type: none;
-	padding-left: 0;
-}
+	.nav ul {
+		list-style-type: none;
+		padding-left: 0;
+	}
 
-.nav li {
-	margin-top: 8px;
+	.nav li {
+		margin-top: 8px;
+	}
 }
-
 h1 a:hover, .post h1 a:hover {
 	color: #fff;
+}
+
+@media only screen and (max-width: 1051px) {
+	.nav {
+		position: fixed;
+		width: calc(100% - 32px);
+		padding: 8px 16px;
+		left: 0;
+		top: 0;
+		background-color: #2f343f;
+	}
+
+	.nav h1 {
+		font-size: 24px;
+		float: left;
+		dislay: inline;
+		margin: 0;
+	}
+
+	.nav h2 {
+		display: none;
+	}
+
+	.nav ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+
+	.nav li {
+		float: left;
+		margin-left: 16px;
+	}
+
+	.nav .admin {
+		float: right;
+	}
 }
 
 .nav a, .nav a:visited #preview-text a, #preview-text a:visited, .post a, .post a:visited {

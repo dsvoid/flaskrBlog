@@ -75,7 +75,7 @@ def archive():
     posts = db.execute('''select title, slug, publish_date from posts
                           where published == 1
                           order by publish_date desc''').fetchall()
-    return render_template('archive.html', posts=posts)
+    return render_template('archive.html', posts=posts, title="archive")
 
 @app.route('/post/<slug>')
 def show_post(slug):
@@ -85,7 +85,7 @@ def show_post(slug):
     posts = cur.fetchall()
     if len(posts) > 0:
         post = posts[0]
-        return render_template('show_post.html', post=post)
+        return render_template('show_post.html', post=post, title=post[0])
     abort(404)
 
 @app.route('/add', methods=['GET', 'POST'])

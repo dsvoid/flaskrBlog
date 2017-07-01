@@ -13,17 +13,42 @@ h1,h2,h3 {
 	line-height:1.2;
 }
 
-h1 a, h1 a:visited, .post h1 a, .post h1 a:visited {
+h3 a, h3 a:visited, h1 a, h1 a:visited, .post h1 a, .post h1 a:visited {
 	color: #f7f2ed;
 	text-decoration: none;
+}
+
+.nav {
+	position: fixed;
+	width: 160px;
+	left: calc(50% - 510px);
+}
+
+.nav h1 {
+	font-size: 48px;
+	margin-top: 21px;
+	margin-bottom: 16px;
+}
+
+.nav ul {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+.nav li {
+	margin-top: 8px;
 }
 
 h1 a:hover, .post h1 a:hover {
 	color: #fff;
 }
 
-#preview-text a, #preview-text a:visited, .post a, .post a:visited {
+.nav a, .nav a:visited #preview-text a, #preview-text a:visited, .post a, .post a:visited {
 	color: #5fd7ff;
+}
+
+.admin a {
+	color: #7cdc21;
 }
 
 .title-input, .text-input {

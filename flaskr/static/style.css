@@ -96,7 +96,32 @@ h1 a:hover, .post h1 a:hover {
 
 .tag-view li {
 	float: left;
-	margin-left: 16px;
+	margin-right: 8px;
+	margin-bottom: 8px;
+	padding: 8px;
+	background-color: #404552;
+}
+
+.tag-input {
+	display: inline;
+	border: none;
+	background-color: #404552;
+	color: #f7f2ed;
+	padding: 10px;
+	font-size: 16px;
+	margin-bottom: 8px;
+}
+
+.delete-tag {
+	border: none;
+	color: #f7f2ed;
+	background-color: #ff4a4a;
+	margin-left: 8px;
+	font-weight: bold;
+}
+
+.delete-tag:hover {
+	background-color: #ff7272;
 }
 
 .admin a {
@@ -134,5 +159,5 @@ img {
 }
 
 hr {
-	border: 1px solid #f7f2ed;
+	border-bottom: 1px solid #f7f2ed;
 }

@@ -24,6 +24,7 @@ function addTag(tag) {
 		var tagView = document.getElementById("tags");
 		var tagCount = form.getElementsByClassName("hidden-tag").length;
 
+		// create hidden input
 		var newTag = document.createElement("input");
 		newTag.setAttribute("type", "hidden");
 		newTag.setAttribute("class", "hidden-tag");
@@ -32,12 +33,31 @@ function addTag(tag) {
 		newTag.setAttribute("value", tagValue);
 		form.appendChild(newTag);
 
+		// create visible tag
 		var liTag = document.createElement("li");
 		liTag.setAttribute("id", "tagView_" + tagCount);
-		liTag.innerHTML = tagValue;
+		liTag.setAttribute("class", "list-tag");
+		liTag.innerHTML = tagValue + "<button type='button' class='delete-tag' onclick='deleteTag(this.parentNode)'>x</button>";
 		tagView.appendChild(liTag);
 
 		tag.value = "";
 	}
 }
 
+function deleteTag(tag) {
+	// remove tags
+	var id = tag.id.split("_")[1];
+	var inputTag = document.getElementById("tag_"+id);
+	tag.parentNode.removeChild(tag);
+	inputTag.parentNode.removeChild(inputTag);
+
+	//recount tags
+	var inputTags = document.getElementsByClassName("hidden-tag");
+	var liTags = document.getElementsByClassName("list-tag");
+	for(i = 0; i < liTags.length; i++) {
+		inputTags[i].setAttribute("name", "tag_" + i);
+		liTags[i].setAttribute("name", "tagView_" + i);
+		inputTags[i].setAttribute("id", "tag_" + i);
+		liTags[i].setAttribute("id", "tagView_" + i);
+	}
+}

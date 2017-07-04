@@ -9,12 +9,12 @@
     <div id=preview-text style="display:none;"></div>
     <form action="{{ url_for('add_post') }}" method=post class=add-post id=edit-post>
       Title<br/>
-      <textarea rows=1 name=title class=title-input id=title-input></textarea><br/>
+      <input type=text name=title class=title-input id=title-input><br/>
       Content<br/>
       <textarea name=text class=text-input id=text-input></textarea><br/>
 			Tags (comma-separated)<br/>
 			<ul id=tags class=tag-view></ul>
-			<input type=text name=tag id=tag-input class=tag-input onkeyup="addTag(this)" style="display: inline; margin-left: 16px;"><br/>
+			<input type=text name=tag id=tag-input class=tag-input onkeyup="addTag(this)"><br/>
       <input type=checkbox name=published> Publish post<br/><br/>
       <input type=submit value=Save>
     </form>

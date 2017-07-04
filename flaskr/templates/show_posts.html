@@ -6,8 +6,16 @@
       <h1><a href="post/{{post.slug}}">{{ post.title }}</a></h1>
       {{ post.publish_date[:10] }}<br/>
       <div class=content>
-	{{ post.text|safe }}
+				{{ post.text|safe }}
       </div>
+			{% if tagdict[post.id] %}
+				<div class=tags>
+						Tagged: 
+						{% for tag in tagdict[post.id] %}
+							<a href='#'>{{ tag }}</a>
+						{% endfor %}
+				</div>
+			{% endif %}
     </div>
     <hr/>
     {% endfor %}

@@ -63,11 +63,19 @@ def close_db(error):
 @app.route('/')
 def show_posts():
     db = get_db()
-    cur = db.execute('''select title, slug, text, publish_date from posts
-                        where published == 1
-                        order by publish_date desc''')
-    posts = cur.fetchall()
-    return render_template('show_posts.html', posts=posts)
+    posts = db.execute('''select id, title, slug, text, publish_date from posts
+                          where published == 1
+                          order by publish_date desc''').fetchall()
+    tagdict = dict()
+    for post in posts:
+        tags = db.execute('''select label from tags
+                             where id in(
+                                select tag_id from tagmap
+                                where post_id == ?)''', [post[0]]).fetchall()
+        tagdict[post[0]] = []
+        for tag in tags:
+            tagdict[post[0]] += [tag[0]]
+    return render_template('show_posts.html', posts=posts, tagdict=tagdict)
 
 @app.route('/about')
 def about():
@@ -104,6 +112,12 @@ def add_post():
             flash('Text cannot be empty')
             return redirect(url_for('add_post'))
 
+        tags = []
+        for key in request.form:
+            if key[:4] == "tag_":
+                print(True)
+                tags += [request.form[key]]
+
         db = get_db()
 
         # render markdown to html
@@ -122,6 +136,19 @@ def add_post():
                       values (?, ?, ?, ?, ?)''',
                    [title, slug, text, published, publish_date])
         db.commit()
+
+        post_id = db.execute('''select id from posts
+                                where slug == ?''', [slug]).fetchone()[0]
+        for tag in tags:
+            db.execute('''insert or ignore into tags (label) values (?)''', [tag])
+            db.commit()
+            tag_id = db.execute('''select id from tags
+                                   where label == ?''', [tag]).fetchone()[0]
+            db.execute('''insert or ignore into tagmap
+                          (post_id, tag_id)
+                          values (?, ?)''', [post_id, tag_id])
+            db.commit()
+
         return redirect(url_for('show_posts'))
     return render_template('add.html')
 

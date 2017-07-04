@@ -14,7 +14,9 @@ function preview() {
 }
 
 function addTag(tag) {
-	if(tag.value.indexOf(',') == 0) {
+	// avoid empty space
+	if(tag.value.indexOf(',') == 0 || tag.value.trim().length == 0
+		|| tag.value.trim() == ',') {
 		tag.value = "";
 	}
 	if(tag.value.indexOf(',') != -1) {

@@ -12,6 +12,17 @@
 			<textarea rows=1 name=title class=title-input id=title-input>{{ post.title }}</textarea><br/>
 			Content<br/>
 			<textarea name=text class=text-input id=text-input>{{ text }}</textarea><br/>
+			Tags (comma-separated)<br/>
+			<ul id=tags class=tag-view>
+			{% for tag in tags %}
+				<li id="tagView_{{ tag.id }}" class=list-tag>
+					{{ tag.label }}
+					<button type=button class=delete-tag onclick="deleteTag(this.parentNode)">x</button>
+					<input type=hidden id="tag_{{ tag.id }}" name="tag_{{ tag.id }}" class=hidden-tag value={{ tag.label }}>
+				</li>
+			{% endfor %}
+			</ul>
+			<input type=text name=tag id=tag-input class=tag-input onkeyup="addTag(this)"><br/>
 			{% if post.published %}
 				<input type=checkbox name=published checked>
 			{% else %}

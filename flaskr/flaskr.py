@@ -103,8 +103,8 @@ def show_post(slug):
                                 where post_id ==?)''', [post[0]]).fetchall()
         tags = []
         for tagrow in tagrows:
-            tags += [tagrow[0]]
-        return render_template('show_post.html', post=post, tags=tags, title=post[1])
+            tags += [tagrow['label']]
+        return render_template('show_post.html', post=post, tags=tags, title=post['title'])
     abort(404)
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -172,6 +172,13 @@ def edit_post(slug):
             return redirect(url_for('edit_post', slug=slug))
 
         db = get_db()
+        
+        tags = []
+        for key in request.form:
+            if key[:4] == "tag_":
+                print(True)
+                tags += [request.form[key]]
+
         post = db.execute('select * from posts where slug == ?', [slug]).fetchall()[0]
         title = request.form['title']
         new_slug = slug
@@ -186,13 +193,31 @@ def edit_post(slug):
                       where slug == ?''',
                       [title, new_slug, text, published, publish_date, slug])
         db.commit()
+        
+        db.execute('''delete from tagmap where post_id == ?''', [post[0]])
+        db.commit()
+        for tag in tags:
+            db.execute('''insert or ignore into tags (label) values (?)''', [tag])
+            db.commit()
+            tag_id = db.execute('''select id from tags
+                                   where label == ?''', [tag]).fetchone()[0]
+            db.execute('''insert or ignore into tagmap
+                          (post_id, tag_id)
+                          values (?, ?)''', [post[0], tag_id])
+            db.commit()
+
+
         return redirect(url_for('show_posts'))
 
     db = get_db()
     post = db.execute('select * from posts where slug == ?', [slug]).fetchall()[0]
     # get post from slug
     text = tomd.Tomd(post['text']).markdown
-    return render_template('edit.html', post=post, text=text, slug=slug)
+    tags = db.execute('''select id, label from tags
+                            where id in(
+                            select tag_id from tagmap
+                            where post_id == ?)''', [post[0]]).fetchall()
+    return render_template('edit.html', post=post, text=text, slug=slug, tags=tags)
 
 @app.route('/delete', methods=['POST'])
 def delete():
@@ -200,6 +225,7 @@ def delete():
         abort(401)
     db = get_db()
     db.execute('delete from posts where id == ?', [request.form['id']])
+    db.execute('''delete from tagmap where post_id == ?''', [request.form['id']])
     db.commit()
     return redirect(url_for('admin'))
 

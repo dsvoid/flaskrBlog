@@ -4,6 +4,14 @@
     <h1>{{ post.title }}</h1>
     {{ post.publish_date[:10] }}<br/>
     {{ post.text|safe }}
+		{% if tags %}
+			<div class=tags>
+					Tagged: 
+					{% for tag in tags %}
+						<a href='#'>{{ tag }}</a>
+					{% endfor %}
+			</div>
+		{% endif %}
   </div>
   <hr/>
 {% endblock %}

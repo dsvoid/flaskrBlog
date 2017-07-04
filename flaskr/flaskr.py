@@ -92,12 +92,19 @@ def archive():
 @app.route('/post/<slug>')
 def show_post(slug):
     db = get_db()
-    cur = db.execute('''select title, slug, text, publish_date from posts
+    cur = db.execute('''select id, title, slug, text, publish_date from posts
                         where published == 1 and slug == ?''', [slug])
     posts = cur.fetchall()
     if len(posts) > 0:
         post = posts[0]
-        return render_template('show_post.html', post=post, title=post[0])
+        tagrows = db.execute('''select label from tags
+                             where id in(
+                                select tag_id from tagmap
+                                where post_id ==?)''', [post[0]]).fetchall()
+        tags = []
+        for tagrow in tagrows:
+            tags += [tagrow[0]]
+        return render_template('show_post.html', post=post, tags=tags, title=post[1])
     abort(404)
 
 @app.route('/add', methods=['GET', 'POST'])

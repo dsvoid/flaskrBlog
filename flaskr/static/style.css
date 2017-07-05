@@ -23,6 +23,7 @@ h3 a, h3 a:visited, h1 a, h1 a:visited, .post h1 a, .post h1 a:visited {
 		position: fixed;
 		width: 160px;
 		left: calc(50% - 510px);
+		background-color: #2f343f;
 	}
 
 	.nav h1 {

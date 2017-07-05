@@ -169,3 +169,39 @@ img {
 hr {
 	border-bottom: 1px solid #f7f2ed;
 }
+
+/* animations */
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+.anim {
+	animation-duration: 0.25s;
+	transition-timing-function: ease-in;
+	animation-fill-mode: both;
+}
+
+.fadein {
+	animation-name: fadeIn;
+}
+
+.fadeout {
+	animation-name: fadeOut;
+}

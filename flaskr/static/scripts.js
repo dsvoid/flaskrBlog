@@ -63,3 +63,17 @@ function deleteTag(tag) {
 		liTags[i].setAttribute("id", "tagView_" + i);
 	}
 }
+
+function checkSubmission() {
+	var title = document.getElementById("title-input");
+	var text = document.getElementById("text-input");
+	if (text.value.trim().length == 0) {
+		document.getElementsByClassName("flash")[0].innerHTML = "Text cannot be empty"; 
+		return false;
+	}
+	if (title.value.trim().length == 0) {
+		document.getElementsByClassName("flash")[0].innerHTML = "Title cannot be empty"; 
+		return false;
+	}
+	return true;
+}

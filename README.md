@@ -3,9 +3,9 @@ My custom additions to the Flaskr tutorial for Python's Flask web framework.
 
 ## Overview
 
-[Flask](http://flask.pocoo.org/) is a neat and minimal web framework for Python. Like every web framework, the first thing you should do with it is make a [blog](https://ds0.xyz/opening-ceremony). I followed the [Flaskr](http://flask.pocoo.org/docs/0.12/tutorial/introduction/) tutorial to make mine, with a few modifications here and there, mostly inspired by [Charles Leiffer](http://charlesleifer.com/blog/how-to-make-a-flask-blog-in-one-hour-or-less/), minus a few things here and there.
+[Flask](http://flask.pocoo.org/) is a neat and minimal web framework for Python. Like every web framework, the first thing you should do with it is make a [blog](https://ds0.xyz/opening-ceremony). I followed the [Flaskr](http://flask.pocoo.org/docs/0.12/tutorial/introduction/) tutorial to make mine, with extra modifications mostly inspired by [Charles Leiffer](http://charlesleifer.com/blog/how-to-make-a-flask-blog-in-one-hour-or-less/).
 
-I'll be real with you: it isn't very pretty. There are no tests. I foolishly set up the Python virtualenv to occupy the same folder as the blog itself. There are practically zero features right now. Nevertheless, I'm publicly releasing this repo as a little encouragement for myself to keep developing it.
+I'll be real with you: it isn't very pretty. There are no tests. I foolishly set up the Python virtualenv to occupy the same folder as the blog itself. The archive and tag pages are archaic. Nevertheless, I'm publicly releasing this repo as a little encouragement for myself to keep developing it.
 
 ## Setup
 
@@ -57,9 +57,4 @@ Now the application should host the website at `http://127.0.0.1:5000/`
 
 ## Usage
 
-First you'll need to log in using the credentials you set up earlier by going to `/login`. Once you've done that, you have some options:
-
-- `/add` to make a new post. Check "Publish post" for it to appear publicly.
-- `/admin` to view all your posts whether published or not, and edit them.
-- `/logout` to end your session.
-- `/archive` to view an archive of your posts.
+First you'll need to log in using the credentials you set up earlier by going to `/login`. Once you've done that, you can navigate administrative features from the page itself. Sessions end automatically after the browser closes, or manually by clicking the logout link.

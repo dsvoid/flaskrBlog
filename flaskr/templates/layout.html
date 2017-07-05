@@ -11,9 +11,6 @@
 {% endif %}
 </title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<script src="{{ url_for('static', filename='jquery-3.2.1.min.js') }}"></script>
-<script src="{{ url_for('static', filename='jquery.smoothState.min.js') }}"></script>
-<script src="{{ url_for('static', filename='unload.js') }}"></script>
 </head>
 
 <body>
@@ -24,7 +21,7 @@
 		<li><a href="/archive">archive</a></li>
 		<li><a href="/tags">tags</a></li>
 		{% if session.logged_in %}
-		<br/>
+		<br class=mobilebreak />
 		<li class=admin><h2>logged in.</h2></li>
 		<li class=admin><a href="/add">new post</a></li>
 		<li class=admin><a href="/admin">admin</a></li>

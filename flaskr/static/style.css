@@ -46,7 +46,7 @@ h1 a:hover, .post h1 a:hover {
 
 @media only screen and (max-width: 1051px) {
 	body {
-		margin-top: 60px;
+		margin-top: 32px;
 	}
 
 	.nav {
@@ -83,6 +83,10 @@ h1 a:hover, .post h1 a:hover {
 
 	.nav .admin {
 		float: right;
+	}
+
+	.mobilebreak {
+		display: none;
 	}
 }
 

@@ -60,6 +60,17 @@ def close_db(error):
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
 
+def clean_tags():
+    db = get_db()
+    tagrows = db.execute('''select id from tags
+                         where id not in(select tag_id from tagmap)''').fetchall()
+    tag_ids = []
+    for tagrow in tagrows:
+        tag_ids += [tagrow[0]]
+    for tag_id in tag_ids:
+        db.execute('''delete from tags where id == ?''', [tag_id])
+    db.commit()
+
 @app.route('/')
 def show_posts():
     db = get_db()
@@ -105,6 +116,36 @@ def show_post(slug):
         for tagrow in tagrows:
             tags += [tagrow['label']]
         return render_template('show_post.html', post=post, tags=tags, title=post['title'])
+    abort(404)
+
+@app.route('/tags')
+def tags():
+    db = get_db()
+    tags = db.execute('''select * from tags order by label asc''').fetchall()
+    return render_template('tags.html', tags=tags, title='tags')
+
+@app.route('/tagged/<label>')
+def tagged(label):
+    db = get_db()
+    tag_id = None
+    cur = db.execute('''select id from tags where label == ?''', [label]).fetchone()
+    if cur:
+        tag_id = cur[0]
+    if tag_id:
+        posts = db.execute('''select * from posts where published == 1
+                            and id in(
+                                select post_id from tagmap where tag_id == ?)
+                            order by publish_date desc''',[tag_id]).fetchall()
+        tagdict = dict()
+        for post in posts:
+            tags = db.execute('''select label from tags
+                                where id in(
+                                    select tag_id from tagmap
+                                    where post_id == ?)''', [post[0]]).fetchall()
+            tagdict[post[0]] = []
+            for tag in tags:
+                tagdict[post[0]] += [tag[0]]
+        return render_template('show_posts.html', posts=posts, tagdict=tagdict, tagged=label, title=label)
     abort(404)
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -176,7 +217,6 @@ def edit_post(slug):
         tags = []
         for key in request.form:
             if key[:4] == "tag_":
-                print(True)
                 tags += [request.form[key]]
 
         post = db.execute('select * from posts where slug == ?', [slug]).fetchall()[0]
@@ -206,7 +246,7 @@ def edit_post(slug):
                           values (?, ?)''', [post[0], tag_id])
             db.commit()
 
-
+        clean_tags()
         return redirect(url_for('show_posts'))
 
     db = get_db()
@@ -227,6 +267,7 @@ def delete():
     db.execute('delete from posts where id == ?', [request.form['id']])
     db.execute('''delete from tagmap where post_id == ?''', [request.form['id']])
     db.commit()
+    clean_tags()
     return redirect(url_for('admin'))
 
 @app.route('/admin')

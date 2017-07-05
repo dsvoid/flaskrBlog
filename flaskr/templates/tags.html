@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+  <div class=posts>
+    <h1>tags</h1>
+    <hr/>
+    {% for tag in tags %}
+    <div>
+      <h3><a href="/tagged/{{ tag.label }}">{{ tag.label }}</a></h3>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

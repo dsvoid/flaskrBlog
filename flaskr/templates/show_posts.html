@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
 {% block body %}
+	{% if tagged %}
+		<h1>posts tagged: {{ tagged }}</h1><hr/>
+	{% endif %}
   <div class=posts>
     {% for post in posts %}
     <div class=post>
@@ -12,7 +15,7 @@
 				<div class=tags>
 						Tagged: 
 						{% for tag in tagdict[post.id] %}
-							<a href='#'>{{ tag }}</a>
+							<a href='/tagged/{{ tag }}'>{{ tag }}</a>
 						{% endfor %}
 				</div>
 			{% endif %}

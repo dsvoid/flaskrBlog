@@ -57,6 +57,7 @@ h1 a:hover, .post h1 a:hover {
 		left: 0;
 		top: 0;
 		background-color: #2f343f;
+		z-index:100;
 	}
 
 	.nav h1 {

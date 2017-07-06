@@ -1,3 +1,36 @@
+/* Liberation Serif font */
+@font-face {
+	font-family: 'Liberation Serif';
+	src: url('liberation-serif/liberationserif-regular-webfont.woff') format('woff');
+	font-style: normal;
+	font-weight: normal;
+	text-rendering: optimizeLegibility;
+}
+
+@font-face {
+	font-family: 'Liberation Serif';
+	src: url('liberation-serif/liberationserif-bold-webfont.woff') format('woff');
+	font-style: normal;
+	font-weight: bold;
+	text-rendering: optimizeLegibility;
+}
+
+@font-face {
+	font-family: 'Liberation Serif';
+	src: url('liberation-serif/liberationserif-italic-webfont.woff') format('woff');
+	font-style: italic;
+	font-weight: normal;
+	text-rendering: optimizeLegibility;
+}
+
+@font-face {
+	font-family: 'Liberation Serif';
+	src: url('liberation-serif/liberationserif-bolditalic-webfont.woff') format('woff');
+	font-style: italic;
+	font-weight: bold;
+	text-rendering: optimizeLegibility;
+}
+
 body {
 	width: calc(100% - 32px);
 	max-width: 800px;
@@ -6,7 +39,7 @@ body {
 	color: #f7f2ed;
 	background-color: #2f343f;
 	line-height:1.4;
-	font-family: 'Average', serif;
+	font-family: 'Liberation Serif', serif;
 	font-size: 18px;
 }
 
@@ -43,7 +76,7 @@ h3 a, h3 a:visited, h1 a, h1 a:visited, .post h1 a, .post h1 a:visited {
 	}
 }
 h1 a:hover, .post h1 a:hover {
-	color: #666;
+	color: #fff;
 }
 
 @media only screen and (max-width: 1151px) {

@@ -324,6 +324,8 @@ def upload_media():
                         values (?, ?, ?, ?)''',
                         [filename, filetype, title, desc])
         db.commit()
+        if not os.path.exists('flaskr/media'):
+            os.makedirs('flaskr/media')
         f.save(os.path.join('flaskr/media', filename))
         flash(filename +' successfully uploaded')
         return redirect(request.url)

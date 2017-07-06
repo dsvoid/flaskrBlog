@@ -143,13 +143,13 @@ h1 a:hover, .post h1 a:hover {
 	margin-right: 8px;
 	margin-bottom: 8px;
 	padding: 8px;
-	background-color: #cecece;
+	background-color: #404552;
 }
 
 .tag-input {
 	display: inline;
 	border: none;
-	background-color: #cecece;
+	background-color: #404552;
 	color: #f7f2ed;
 	padding: 10px;
 	font-size: 16px;
@@ -177,7 +177,7 @@ h1 a:hover, .post h1 a:hover {
 }
 
 .title-input, .text-input, .desc-input {
-	background-color: #cecece;
+	background-color: #404552;
 	color: #f7f2ed;
 	border: none;
 	width: calc(100% - 16px);
@@ -204,7 +204,7 @@ h1 a:hover, .post h1 a:hover {
 pre {
 	width: calc(100% - 16px);
 	padding: 8px;
-	background-color: #cecece;
+	background-color: #404552;
 	font-size: 14px;
 }
 

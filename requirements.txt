@@ -1,9 +1,12 @@
 click==6.7
 Flask==0.12.2
+Flask-SSLify==0.1.5
 itsdangerous==0.24
 Jinja2==2.9.6
 Markdown==2.6.8
 MarkupSafe==1.0
+olefile==0.44
+Pillow==4.2.0
 python-slugify==1.2.4
 tomd==0.1.2
 Unidecode==0.4.20

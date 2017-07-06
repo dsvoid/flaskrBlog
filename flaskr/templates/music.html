@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+	<h1>music</h1><hr/>
+	<div class=music>
+	{% for tune in music %}
+		<audio controls preload=none style="width:100%">
+			<source src="/media/{{ tune.filename }}">
+		</audio>
+		{% if session.logged_in %}
+			<form action="{{ url_for('delete_media') }}" method=post>
+			<button onclick="return confirm('Are you sure you want to delete {{ tune.filename }}?')">delete</button>
+			<input type=hidden name=id value="{{ tune.id }}">
+			<input type=hidden name=filename value="{{ tune.filename }}">
+			</form>
+		{% endif %}
+		<h3>{{ tune.title }}</h3>
+		<p>{{ tune.description }}</p>
+		<hr/>
+	{% endfor %}
+	</div>
+{% endblock %}

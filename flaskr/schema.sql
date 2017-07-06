@@ -23,3 +23,12 @@ create table tagmap (
 	foreign key(tag_id) references tags(id),
 	constraint c unique(post_id, tag_id)
 );
+
+drop table if exists media;
+create table media (
+	id integer primary key autoincrement,
+	filename text not null,
+	filetype text not null,
+	title text,
+	description text
+);

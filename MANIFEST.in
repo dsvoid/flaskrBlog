@@ -1,4 +1,5 @@
 graft flaskr/templates
 graft flaskr/static
+graft flaskr/media
 include flaskr/schema.sql
 

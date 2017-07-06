@@ -142,7 +142,7 @@ h1 a:hover, .post h1 a:hover {
 	color: #7cdc21;
 }
 
-.title-input, .text-input {
+.title-input, .text-input, .desc-input {
 	background-color: #404552;
 	color: #f7f2ed;
 	border: none;
@@ -159,6 +159,12 @@ h1 a:hover, .post h1 a:hover {
 .text-input {
 	height: 50vh;
 	font-size: 14px;
+}
+
+.desc-input {
+	height: 25vh;
+	font-family: sans-serif;
+	font-size: 16px;
 }
 
 pre {

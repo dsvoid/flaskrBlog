@@ -102,5 +102,6 @@ bin/
 # custom stuff for the flaskr clone + virtualenv stuff
 flaskr.db
 include/
+flaskr/media/
 pip-selfcheck.json
 keys.py

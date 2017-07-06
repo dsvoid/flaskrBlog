@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+	{% if session.logged_in %}
+		<h1>upload media</h1><hr/>
+		<div class=flash>{{ get_flashed_messages()[0] }}</div>
+		<form action="{{ url_for('upload_media') }}" enctype="multipart/form-data" method="post" class="add-media" id="add-media">	
+			<input type=file name=file-input id=file-input accept=".mp3, .mp4, .ogg, .jpg, .jpeg, .png"><br/>
+			<p>Supported audio formats: .mp3, .mp4, .ogg</p>
+			<p>Supported image formats: .jpg, .png</p>
+			Title (Optional)<br/>
+			<input type=text name=title class=title-input id=title-input><br/>
+			Description (Optional)<br/>
+			<textarea name=desc class=desc-input id=desc-input></textarea><br/><br/>
+			<input type=submit value=Submit onclick="return checkMediaSubmission()">
+		</form>
+	{% endif %}
+{% endblock %}

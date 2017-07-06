@@ -3,12 +3,14 @@ import sys
 import sqlite3
 import markdown
 import tomd
+from PIL import Image
 from keys import keys
 from datetime import datetime
 from slugify import slugify
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from flask import Flask, request, session, g, redirect, url_for, abort, \
-     render_template, flash, Markup
+     render_template, send_from_directory, flash, Markup
 
 app = Flask(__name__) # create the application instance :)
 app.config.from_object(__name__) # load config from this file , flaskr.py
@@ -40,6 +42,18 @@ def format_slug(slug):
         return slug + '-' + str(slug_extra)
     return slug
 
+def format_filename(name): 
+    db = get_db()
+    name_extra = 1
+    duplicate_names = db.execute('select filename from media where filename == ?', [name]).fetchall()
+    if len(duplicate_names) != 0:
+        while len(duplicate_names) != 0:
+            name_extra += 1
+            namesplit = name.rsplit('.',1)
+            duplicate_names = db.execute('select slug from posts where slug == ?', [namesplit[0] + '_' + str(name_extra) + '.' + namesplit[1]]).fetchall()
+        return namesplit[0] + '_' + str(name_extra) + '.' + namesplit[1]
+    return name
+
 @app.cli.command('initdb')
 def initdb_command():
     """Initializes the database."""
@@ -70,6 +84,17 @@ def clean_tags():
     for tag_id in tag_ids:
         db.execute('''delete from tags where id == ?''', [tag_id])
     db.commit()
+
+def allowed_file(filename):
+    audio_ext = ['mp3', 'mp4', 'ogg']
+    image_ext = ['jpg', 'jpeg', 'png']
+    ext = filename.rsplit('.',1)[1].lower()
+    if ext in audio_ext:
+        return 'audio'
+    if ext in image_ext:
+        return 'image'
+    print('whoops')
+    return False
 
 @app.route('/')
 def show_posts():
@@ -269,6 +294,71 @@ def delete():
     db.commit()
     clean_tags()
     return redirect(url_for('admin'))
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_media():
+    if not session.get('logged_in'):
+        abort(401)
+    if request.method == 'GET':
+        return render_template('upload.html')
+    if 'file-input' not in request.files:
+        flash('No file specified')
+        return redirect(request.url)
+    f = request.files['file-input']
+    if f.filename == '':
+        flash('No file specified')
+        return redirect(request.url)
+    filetype = allowed_file(f.filename)
+    if filetype:
+        filename = secure_filename(f.filename)
+        filename = format_filename(filename)
+        db = get_db()
+        title = ''
+        desc = ''
+        if 'title' in request.form:
+            title = request.form['title']
+        if 'desc' in request.form:
+            desc = request.form['desc']
+        db.execute('''insert into media
+                        (filename, filetype, title, description)
+                        values (?, ?, ?, ?)''',
+                        [filename, filetype, title, desc])
+        db.commit()
+        f.save(os.path.join('flaskr/media', filename))
+        flash(filename +' successfully uploaded')
+        return redirect(request.url)
+    flash('Inapproprite file type')
+    return redirect(request.url)
+
+@app.route('/media/<filename>')
+def media(filename):
+    return send_from_directory(directory='media', filename=filename)
+
+@app.route('/photography')
+def photos():
+    db = get_db()
+    photos = db.execute('select * from media where filetype == ? order by id desc',
+        ['image']).fetchall()
+    return render_template('photos.html', photos=photos)
+
+@app.route('/music')
+def music():
+    db = get_db()
+    music = db.execute('select * from media where filetype == ? order by id desc',
+        ['audio']).fetchall()
+    return render_template('music.html', music=music)
+
+@app.route('/delete_media', methods=['POST'])
+def delete_media():
+    ext = allowed_file(request.form['filename'])
+    os.remove('flaskr/media/' + request.form['filename'])
+    db = get_db()
+    db.execute('delete from media where id == ?', [request.form['id']])
+    db.commit()
+    if ext == 'image':
+        return redirect(url_for('photos')) 
+    elif ext == 'audio':
+        return redirect(url_for('music'))
 
 @app.route('/admin')
 def admin():

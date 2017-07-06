@@ -20,12 +20,15 @@
 		<li><a href='/about'>about</a></li>
 		<li><a href="/archive">archive</a></li>
 		<li><a href="/tags">tags</a></li>
+		<li><a href="/photography">photography</a></li>
+		<li><a href="/music">music</a></li>
 		{% if session.logged_in %}
 		<br class=mobilebreak />
 		<li class=admin><h2>logged in.</h2></li>
 		<li class=admin><a href="/add">new post</a></li>
+		<li class=admin><a href="/upload">upload media</a></li>
 		<li class=admin><a href="/admin">admin</a></li>
-		<li class =admin><a href="/logout">logout</a></li>
+		<li class=admin><a href="/logout">logout</a></li>
 		{% endif %}
 	</ul>
 </div>

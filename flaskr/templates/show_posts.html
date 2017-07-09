@@ -22,5 +22,21 @@
     </div>
     <hr/>
     {% endfor %}
+    <div class=pagenav>
+      {% if page > 1 %}
+	{% if tagged %}
+	  <a href="/page/{{ page - 1}}" style="float:left;">&lt;&lt; Newer</a>
+	{% else %}
+	  <a href="/tagged/{{ tagged }}/{{ page - 1}}" style="float:left;">&lt;&lt; Newer</a>
+	{% endif %}
+      {% endif %}
+      {% if posts|length == 10 %}
+	{% if tagged %}
+	  <a href="/tagged/{{ tagged }}/{{ page + 1}}" style="float:right;">Older >></a>
+	{% else %}  
+	  <a href="/page/{{ page + 1}}" style="float:right;">Older >></a>
+	{% endif %}
+      {% endif %}
+    </div>
   </div>
 {% endblock %}

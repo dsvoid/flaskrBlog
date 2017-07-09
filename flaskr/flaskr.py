@@ -76,7 +76,7 @@ def show_posts():
     db = get_db()
     posts = db.execute('''select id, title, slug, text, publish_date from posts
                           where published == 1
-                          order by publish_date desc''').fetchall()
+                          order by publish_date desc limit 10''').fetchall()
     tagdict = dict()
     for post in posts:
         tags = db.execute('''select label from tags
@@ -86,7 +86,25 @@ def show_posts():
         tagdict[post[0]] = []
         for tag in tags:
             tagdict[post[0]] += [tag[0]]
-    return render_template('show_posts.html', posts=posts, tagdict=tagdict)
+    return render_template('show_posts.html', posts=posts, tagdict=tagdict, page=1)
+
+@app.route('/page/<pageno>')
+def page(pageno):
+    db = get_db()
+    posts = db.execute('''select id, title, slug, text, publish_date from posts
+                          where published == 1
+                          order by publish_date desc limit 10 offset ?''',
+                          [(int(pageno) - 1) * 10]).fetchall()
+    tagdict = dict()
+    for post in posts:
+        tags = db.execute('''select label from tags
+                             where id in(
+                                select tag_id from tagmap
+                                where post_id == ?)''', [post[0]]).fetchall()
+        tagdict[post[0]] = []
+        for tag in tags:
+            tagdict[post[0]] += [tag[0]]
+    return render_template('show_posts.html', posts=posts, tagdict=tagdict, page=int(pageno))
 
 @app.route('/about')
 def about():
@@ -135,7 +153,7 @@ def tagged(label):
         posts = db.execute('''select * from posts where published == 1
                             and id in(
                                 select post_id from tagmap where tag_id == ?)
-                            order by publish_date desc''',[tag_id]).fetchall()
+                            order by publish_date desc limit 10''',[tag_id]).fetchall()
         tagdict = dict()
         for post in posts:
             tags = db.execute('''select label from tags
@@ -145,9 +163,33 @@ def tagged(label):
             tagdict[post[0]] = []
             for tag in tags:
                 tagdict[post[0]] += [tag[0]]
-        return render_template('show_posts.html', posts=posts, tagdict=tagdict, tagged=label, title=label)
+        return render_template('show_posts.html', posts=posts, tagdict=tagdict, tagged=label, title=label, page=1)
     abort(404)
 
+@app.route('/tagged/<label>/<pageno>')
+def tagged_page(label, pageno):
+    db = get_db()
+    tag_id = None
+    cur = db.execute('''select id from tags where label == ?''', [label]).fetchone()
+    if cur:
+        tag_id = cur[0]
+    if tag_id:
+        posts = db.execute('''select * from posts where published == 1
+                            and id in(
+                                select post_id from tagmap where tag_id == ?)
+                            order by publish_date desc limit 10 offset ?''',
+                            [tag_id, (int(pageno)-1) * 10]).fetchall()
+        tagdict = dict()
+        for post in posts:
+            tags = db.execute('''select label from tags
+                                where id in(
+                                    select tag_id from tagmap
+                                    where post_id == ?)''', [post[0]]).fetchall()
+            tagdict[post[0]] = []
+            for tag in tags:
+                tagdict[post[0]] += [tag[0]]
+        return render_template('show_posts.html', posts=posts, tagdict=tagdict, tagged=label, title=label, page=int(pageno))
+    abort(404)
 @app.route('/add', methods=['GET', 'POST'])
 def add_post():
     if not session.get('logged_in'):
